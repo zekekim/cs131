@@ -15,7 +15,7 @@ let set_all_union_test1 =
 let computed_fixed_point_test0 =
     computed_fixed_point (=) (fun x -> x / 2) 10 = 0
 
-let computed_periodic_point_test1 =
+let computed_periodic_point_test0 =
     computed_periodic_point (=) (fun x -> x * x) 2 2 = 16
 
 let while_seq_test0 =
