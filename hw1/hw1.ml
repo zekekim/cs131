@@ -44,11 +44,11 @@ let rec apply_p_times f p x =
 let rec computed_periodic_point eq f p x =
     let next = apply_p_times f p x in
     if eq x next then x
-    else computed_periodic_point eq f p next
+    else computed_periodic_point eq f p (f x)
 
-let rec while_seq s p x =
+let rec whileseq s p x =
   if p x
-  then x :: while_seq s p (s x)
+  then x :: whileseq s p (s x)
   else []
 
 type ('nonterminal, 'terminal) symbol =
