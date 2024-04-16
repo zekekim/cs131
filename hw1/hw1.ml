@@ -18,18 +18,9 @@ let rec set_union a b =
 let set_all_union a =
     List.fold_left set_union [] a
 (*
-It is not possible to write a function `self_member` in OCaml that determines
-if a set is a member of itself because OCaml's type system prevents the creation
-of such self-referential structures to avoid paradoxes like Russell's Paradox.
-
-In set theory, Russell's Paradox shows the impossibility of a set containing
-all sets that do not contain themselves, as it leads to a logical contradiction.
-Similarly, in programming languages with strict type systems like OCaml, a set
-(or any type) containing itself would violate the rules of the type system,
-leading to undefined or contradictory behavior.
-
-Therefore, any attempt to define `self_member` would fail to compile due to the
-inability to construct a self-containing set within OCaml's type system.
+It is not possible to assign a set to itself, as OCaml does not allow for
+values to be assigned to itself, where a function that uses its own result must
+be stated as recursive.
 *)
 
 let rec computed_fixed_point eq f x =
