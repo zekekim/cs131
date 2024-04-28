@@ -1,0 +1,55 @@
+This assignment was particularly challenging due to the fact that I feel like
+I had to think in so many levels of recursion, that at some point I had to write
+it out to make myself feel sane again.
+I started with convert_grammar, which I was confused about at first, but then
+I thought of it as a means to iterate upon a list using a function. After I
+thought about it as almost a map where the type was a keyword, I was able to
+make it so that this function worked out.
+I then worked on the parse_tree_leaves. This was a basic dfs, where the function
+recursed along a branch in a preorder dfs until it reached the leaves, then
+backtracked iterating to the next leaf, etc. The function worked as expected
+on the first few times going through it.
+In my homework, make_parser was in terms of the function make_matcher.
+make_matcher was the function that I based make_parser from. make_matcher
+took a few iterations. First, I tried abstracting the recursion down to the level
+of what I thought was expression structure. I had a function from value matching
+all the way to expression matching to a rule, but I did not feel like the
+logic was satisfactory, and it turned out to be true becasie it failed multiple
+test cases. Instead, I thought in terms of 'AND' and 'OR', where I was basically
+matching rules like an or case and matching a singular rule like an and expression.
+The or_matcher and the and_matcher worked hand in hand, where the or_matcher
+passes the fragment and the rule to the and_matcher which returns the suffix
+if the suffix exists. If the suffix does not exist, the and_matcher returns
+None and the or_matcher moves onto the next iteration. If the or_matcher runs
+out of possible rules to compare the fragment with, the or_matcher returns
+None and the make_matcher also returns None.
+This function was difficult to adapt into a make_parser. Honestly, this took
+me around 8 hours to figure out. I was mainly looking through the discussions
+and the slides for the discussions for answers on this question, and first found
+a way to build a better acceptor. When the acceptor took in the fragment,
+it would return the tree if there was a valid tree where the fragment was empty,
+or it would return None if there was no valid tree given that fragment was
+empty. Next, I had to figure out how to keep track of the tree structure and how
+to build it upon iterations, recursivity, and backtracking. I built upon
+the previously structured make_matcher, and had to keep track of two new things,
+the tree and the current symbol. The current symbol is used to create the
+corresponding Node for the concurrent branch, and backtracks similarly in the
+make_matcher. The or_parser now takes the symbol and tree along with the other
+arguments and instead of returning a suffix, it returns the result of the
+acceptor on the latest implementation of the tree and the fragment, which
+returns the tree if the fragment is the empty list.
+One thing that I noticed that could be, in a way, a shortsight on this program
+is the fact that the grammar is parsed in order of the way that the
+grammar is given to you. So if you were given,
+```
+5 * 5 + 2
+```
+and the grammar was listed as
+```
+Expr -> [[N Term; N Binop; N Expr];
+         [N term; N Binop; N Term]
+```
+Then the grammar would return 35, when the resulting expression should be
+27. This is just a generalized example that is to say the order of operations
+kind of goes out the window in preference to the lexical organization of
+expressions.
